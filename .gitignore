@@ -7,3 +7,6 @@ outputs/
 
 __pycache__/
 *.py[cod]
+
+# IPA publicado explicitamente; outros IPAs e certificados continuam ignorados.
+!ipa/MCPE-0.15.10-hitbox-unsigned.ipa

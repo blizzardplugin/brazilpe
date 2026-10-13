@@ -6,6 +6,8 @@ Não existe menu, botão ou overlay novo. O módulo amplia a caixa **temporária
 
 ## Usar o arquivo entregue
 
+[Baixar o IPA sem assinatura](https://github.com/blizzardplugin/brazilpe/raw/refs/heads/main/ipa/MCPE-0.15.10-hitbox-unsigned.ipa). O SHA-256 do arquivo publicado está registrado em `VALIDATION.json`.
+
 O arquivo `MCPE-0.15.10-hitbox-unsigned.ipa` precisa ser **assinado novamente** e instalado usando uma ferramenta de sideload compatível com seu iOS e sua conta/certificado. Não exige jailbreak para o módulo rodar: a modificação já está dentro do executável, sem injeção em outro processo nem alteração de memória executável durante o jogo. O ambiente desta produção não tem certificado Apple nem dispositivo iOS; a assinatura e a instalação não foram realizadas.
 
 Depois da primeira execução, procure em **Arquivos → No Meu iPhone → Minecraft PE → mcpe-hitbox → hitbox.cfg**. O contêiner exato exibido pelo instalador pode ter outro nome. O caminho relativo é `Documents/mcpe-hitbox/hitbox.cfg`; o IPA original já habilita compartilhamento de arquivos. A ferramenta de instalação também pode permitir acessar os documentos do aplicativo pelo computador.
