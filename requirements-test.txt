@@ -1,0 +1,4 @@
+-r requirements.txt
+unicorn==2.1.4
+lief==0.17.0
+capstone==5.0.6

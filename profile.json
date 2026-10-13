@@ -1,0 +1,33 @@
+{
+  "version": "0.15.10",
+  "bundle_id": "com.mojang.minecraftpe",
+  "executable_sha256": "536dbba71ec53be8f410ee4fa90bcac89183b92ef1b7135e480f2aa181c1fee4",
+  "cpu_type": 16777228,
+  "image_base": "0x100000000",
+  "player_type_function": "0x1002cb9cc",
+  "player_type_bytes": "e0278052c0035fd6",
+  "pick_radius_function": "0x1004e4cbc",
+  "pick_radius_bytes": "083800d000154bbdc0035fd6",
+  "shadow_radius_function": "0x1004e4b64",
+  "shadow_radius_bytes": "00d440bd01102c1e0008211ec0035fd6",
+  "player_vtables": ["0x100e5cd60", "0x100e5d620", "0x100e65108", "0x100e7fd80"],
+  "pick_slot": "0x248",
+  "type_slot": "0x2b0",
+  "shadow_slot": "0x168",
+  "hook_sites": {
+    "range": {"address": "0x1001247d8", "expected": "081ca04e", "helper": "range"},
+    "cap_s0": {"address": "0x100124aa0", "expected": "0010211e", "helper": "cap_s0"},
+    "cap_bits": {"address": "0x100124aac", "expected": "0808a852", "instruction": "fmov w8, s0"},
+    "broad": {"address": "0x100124b40", "expected": "e81b09b2e88700f9e81b0932e81301b9", "helper": "broad"},
+    "cap_s1": {"address": "0x100124d64", "expected": "0110211e", "helper": "cap_s1"}
+  },
+  "config_path_suffix": "/Documents/mcpe-hitbox",
+  "config_filename": "/hitbox.cfg",
+  "radius_min": 0.1,
+  "radius_max": 8.0,
+  "reach_min": 3.0,
+  "reach_max": 12.0,
+  "reload_seconds": 1,
+  "page_size": 16384,
+  "status": "static-analysis-and-emulation; physical-iOS-validation-pending"
+}

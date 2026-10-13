@@ -1,0 +1,178 @@
+// Apple ARM64 ABI: variadic scanf arguments are placed on the stack.
+// This routine uses existing libSystem stubs; it adds no loader or dylib.
+stp x29, x30, [sp, #-16]!
+mov x29, sp
+sub sp, sp, #0x600
+add x8, sp, #0x580
+stp x19, x20, [x8]
+stp x21, x22, [x8, #16]
+stp x23, x24, [x8, #32]
+stp d8, d9, [x8, #48]
+adrp x19, ${state_page}
+add x19, x19, ${state_low}
+add x8, x19, #24
+ldaxr w9, [x8]
+cbnz w9, contended
+mov w9, #1
+stlxr w10, w9, [x8]
+cbnz w10, contended
+mov x0, #0
+bl ${time}
+mov x23, x0
+ldr x8, [x19, #16]
+cmp x23, x8
+b.eq unlock
+str x23, [x19, #16]
+// Invalid or inaccessible configuration restores the original values.
+ldr s0, [x19, #28]
+str s0, [x19]
+fmov s0, #3.0
+str s0, [x19, #4]
+fmov s0, #1.0
+str s0, [x19, #8]
+adrp x0, ${home_page}
+add x0, x0, ${home_low}
+bl ${getenv}
+cbz x0, unlock
+ldrb w9, [x0]
+cmp w9, #47
+b.ne unlock
+add x21, sp, #0x40
+mov x8, #0
+copy_home:
+cmp x8, ${home_limit}
+b.hs unlock
+ldrb w9, [x0, x8]
+strb w9, [x21, x8]
+cbz w9, home_done
+add x8, x8, #1
+b copy_home
+home_done:
+add x22, x21, x8
+adrp x10, ${suffix_page}
+add x10, x10, ${suffix_low}
+copy_suffix:
+ldrb w9, [x10], #1
+strb w9, [x22], #1
+cbnz w9, copy_suffix
+sub x22, x22, #1
+mov x0, x21
+mov w1, #493
+bl ${mkdir}
+adrp x10, ${filename_page}
+add x10, x10, ${filename_low}
+copy_filename:
+ldrb w9, [x10], #1
+strb w9, [x22], #1
+cbnz w9, copy_filename
+mov x0, x21
+adrp x1, ${rb_page}
+add x1, x1, ${rb_low}
+bl ${fopen}
+cbz x0, create_file
+mov x20, x0
+add x0, sp, #0x440
+mov x1, #1
+mov x2, #127
+mov x3, x20
+bl ${fread}
+mov x24, x0
+mov x0, x20
+bl ${fclose}
+cbz x24, unlock
+cmp x24, #127
+b.hs unlock
+add x0, sp, #0x440
+mov x10, #0
+validate_ascii:
+ldrb w9, [x0, x10]
+cmp w9, #9
+b.eq ascii_next
+cmp w9, #10
+b.eq ascii_next
+cmp w9, #13
+b.eq ascii_next
+cmp w9, #32
+b.lo unlock
+cmp w9, #126
+b.hi unlock
+ascii_next:
+add x10, x10, #1
+cmp x10, x24
+b.lo validate_ascii
+strb wzr, [x0, x24]
+b parse
+create_file:
+mov x0, x21
+adrp x1, ${wb_page}
+add x1, x1, ${wb_low}
+bl ${fopen}
+cbz x0, unlock
+mov x20, x0
+adrp x0, ${defaults_page}
+add x0, x0, ${defaults_low}
+mov x1, #1
+mov x2, ${defaults_length}
+mov x3, x20
+bl ${fwrite}
+mov x24, x0
+mov x0, x20
+bl ${fclose}
+cmp x24, ${defaults_length}
+b.ne unlock
+adrp x0, ${defaults_page}
+add x0, x0, ${defaults_low}
+parse:
+adrp x1, ${format_page}
+add x1, x1, ${format_low}
+add x8, sp, #0x500
+add x9, sp, #0x504
+stp x8, x9, [sp]
+add x8, sp, #0x508
+add x9, sp, #0x50c
+stp x8, x9, [sp, #16]
+bl ${sscanf}
+cmp w0, #3
+b.ne unlock
+ldr w8, [sp, #0x500]
+cbz w8, unlock
+cmp w8, #1
+b.ne unlock
+ldr s0, [sp, #0x504]
+fcmp s0, s0
+b.vs unlock
+ldr s1, [x19, #28]
+fcmp s0, s1
+b.lt unlock
+fmov s1, ${radius_max}
+fcmp s0, s1
+b.gt unlock
+ldr s2, [sp, #0x508]
+fcmp s2, s2
+b.vs unlock
+fmov s1, ${reach_min}
+fcmp s2, s1
+b.lt unlock
+fmov s1, ${reach_max}
+fcmp s2, s1
+b.gt unlock
+str s0, [x19]
+str s2, [x19, #4]
+fmov s1, #1.0
+fmax s0, s0, s1
+str s0, [x19, #8]
+unlock:
+add x8, x19, #24
+stlr wzr, [x8]
+b restore
+contended:
+clrex
+restore:
+add x8, sp, #0x580
+ldp d8, d9, [x8, #48]
+ldp x23, x24, [x8, #32]
+ldp x21, x22, [x8, #16]
+ldp x19, x20, [x8]
+add sp, sp, #0x600
+ldp x29, x30, [sp], #16
+ret

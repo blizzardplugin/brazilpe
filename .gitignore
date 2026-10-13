@@ -1,0 +1,9 @@
+*.ipa
+*.mobileprovision
+*.p12
+*.cer
+outputs/
+.venv/
+
+__pycache__/
+*.py[cod]

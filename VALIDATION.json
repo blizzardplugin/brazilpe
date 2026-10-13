@@ -1,0 +1,115 @@
+{
+  "version": "0.15.10",
+  "cpu": "arm64",
+  "signature": "unsigned",
+  "input_executable_sha256": "536dbba71ec53be8f410ee4fa90bcac89183b92ef1b7135e480f2aa181c1fee4",
+  "output_executable_sha256": "b8b53f9ac684ba61f4be8fa7cab03f7729c80a8837d2c239d3b32944ca827da1",
+  "helpers": {
+    "update": {
+      "address": "0x100ffc000",
+      "size": 656
+    },
+    "range": {
+      "address": "0x100ffd000",
+      "size": 52
+    },
+    "radius": {
+      "address": "0x100ffd100",
+      "size": 16
+    },
+    "cap_s0": {
+      "address": "0x100ffd200",
+      "size": 16
+    },
+    "cap_s1": {
+      "address": "0x100ffd300",
+      "size": 16
+    },
+    "broad": {
+      "address": "0x100ffd400",
+      "size": 28
+    }
+  },
+  "hooks": [
+    {
+      "kind": "player_pick_pointer",
+      "address": "0x100e5cfa8"
+    },
+    {
+      "kind": "player_pick_pointer",
+      "address": "0x100e5d868"
+    },
+    {
+      "kind": "player_pick_pointer",
+      "address": "0x100e65350"
+    },
+    {
+      "kind": "player_pick_pointer",
+      "address": "0x100e7ffc8"
+    },
+    {
+      "kind": "range",
+      "address": "0x1001247d8",
+      "size": 4
+    },
+    {
+      "kind": "cap_s0",
+      "address": "0x100124aa0",
+      "size": 4
+    },
+    {
+      "kind": "cap_bits",
+      "address": "0x100124aac",
+      "size": 4
+    },
+    {
+      "kind": "broad",
+      "address": "0x100124b40",
+      "size": 16
+    },
+    {
+      "kind": "cap_s1",
+      "address": "0x100124d64",
+      "size": 4
+    }
+  ],
+  "player_vtables": 4,
+  "shadow_code_unchanged": true,
+  "original_aslr_locations_preserved": true,
+  "runtime_config": "Documents/mcpe-hitbox/hitbox.cfg",
+  "menu_added": false,
+  "physical_ios_test": "not performed",
+  "server_acceptance": "not guaranteed",
+  "input_ipa_sha256": "b89ec32be5992b18ddea4d458a5745c5e50574cba960ab71ca7b831db647c8df",
+  "output_ipa_sha256": "00b90ef5267b1e1c69b9b2652aeb92d4dc65dca1d99ae393cc0f6018a8c24654",
+  "archive_validation": {
+    "crc": "passed",
+    "existing_modified_files": [
+      "Payload/minecraftpe.app/minecraftpe"
+    ],
+    "added_files": [
+      "Payload/minecraftpe.app/data/mcpe-hitbox/hitbox.cfg"
+    ],
+    "removed_signature_files": 2,
+    "other_original_assets": "byte-identical"
+  },
+  "native_tests": {
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0,
+    "engine": "Unicorn ARM64; libc import callbacks",
+    "checks": [
+      "live config reload",
+      "first-launch config creation",
+      "disabled/invalid/non-ASCII/NUL/oversize config",
+      "ASLR slide",
+      "callee-saved registers and stack",
+      "nonblocking contention",
+      "LIEF independent metadata parsing",
+      "shadow and nonplayer radius unchanged",
+      "only guarded original instructions changed",
+      "unrecognized input refused"
+    ]
+  },
+  "artifact_bytes": 24214121
+}
